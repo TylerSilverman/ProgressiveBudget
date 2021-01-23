@@ -15,6 +15,11 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
+// console chalk to write in the terminal  
+const chalk = require('chalk'); 
+console.log(chalk.green('Ready to Track your Budget?'));
+console.log(chalk.green('Click below tp begin..'));
+
 //connecting to mongoose sever database 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/budget", {
     useNewUrlParser: true,

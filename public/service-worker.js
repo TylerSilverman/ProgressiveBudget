@@ -58,6 +58,7 @@ self.addEventListener("activate", function(evt) {
 
 self.addEventListener('fetch', function(evt) {
   // code to handle requests goes here
+  console.log(evt)
   });
 
 // // fetch

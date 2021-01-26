@@ -38,53 +38,57 @@ const DATA_CACHE_NAME = "data-cache-v1";
 });
 //-------------------------------------------------------//
 
-// // activate
-// self.addEventListener("activate", function(evt) {
-//   evt.waitUntil(
-//     caches.keys().then(keyList => {
-//       return Promise.all(
-//         keyList.map(key => {
-//           if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
-//             console.log("Removing old cache data", key);
-//             return caches.delete(key);
-//           }
-//         })
-//       );
-//     })
-//   );
+// // activate-code to activate the service worker and remove old data from the cache.
+self.addEventListener("activate", function(evt) {
+  evt.waitUntil(
+    caches.keys().then(keyList => {
+      return Promise.all(
+        keyList.map(key => {
+          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+            console.log("Removing old cache data", key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
+  );
 
-//   self.clients.claim();
-// });
+  self.clients.claim();
+});
+
+self.addEventListener('fetch', function(evt) {
+  // code to handle requests goes here
+  });
 
 // // fetch
-// self.addEventListener("fetch", function(evt) {
-//   if (evt.request.url.includes("/api/")) {
-//     evt.respondWith(
-//       caches.open(DATA_CACHE_NAME).then(cache => {
-//         return fetch(evt.request)
-//           .then(response => {
-//             // If the response was good, clone it and store it in the cache.
-//             if (response.status === 200) {
-//               cache.put(evt.request.url, response.clone());
-//             }
+self.addEventListener("fetch", function(evt) {
+  if (evt.request.url.includes("/all")) {
+    evt.respondWith(
+      caches.open(DATA_CACHE_NAME).then(cache => {
+        return fetch(evt.request)
+          .then(response => {
+            // If the response was good, clone it and store it in the cache.
+            if (response.status === 200) {
+              cache.put(evt.request.url, response.clone());
+            }
 
-//             return response;
-//           })
-//           .catch(err => {
-//             // Network request failed, try to get it from the cache.
-//             return cache.match(evt.request);
-//           });
-//       }).catch(err => console.log(err))
-//     );
+            return response;
+          })
+          .catch(err => {
+            // Network request failed, try to get it from the cache.
+            return cache.match(evt.request);
+          });
+      }).catch(err => console.log(err))
+    );
 
-//     return;
-//   }
+    return;
+  }
 
-//   evt.respondWith(
-//     caches.open(CACHE_NAME).then(cache => {
-//       return cache.match(evt.request).then(response => {
-//         return response || fetch(evt.request);
-//       });
-//     })
-//   );
-// });
+  evt.respondWith(
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.match(evt.request).then(response => {
+        return response || fetch(evt.request);
+      });
+    })
+  );
+});

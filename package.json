@@ -26,5 +26,8 @@
     "mongoose": "^5.5.15",
     "morgan": "^1.9.1",
     "seed": "^0.4.4"
+  },
+  "devDependencies": {
+    "webpack": "^5.18.0"
   }
 }

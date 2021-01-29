@@ -8,10 +8,8 @@ request.onupgradeneeded = function(event) {
 
 request.onsuccess = function(event) {
   db = event.target.result;
-
-  // check if app is online before reading from db
   if (navigator.onLine) {
-      console.log("Online and Working");
+      console.log("App is Online and Running");
     checkDatabase();
   }
 };
@@ -21,7 +19,7 @@ request.onerror = function(event) {
 };
 
 function saveRecord(record) {
-    console.log(record);
+    console.log("The record is Saved:" + record);
   // create a transaction on the pending db with readwrite access
   const transaction = db.transaction(["pending"], "readwrite");
 

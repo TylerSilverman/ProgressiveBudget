@@ -1,5 +1,6 @@
 let transactions = [];
 let myChart;
+// let saveRecord = indexedDB;
 
 fetch("/api/transaction")
   .then(response => {
@@ -112,7 +113,7 @@ function sendTransaction(isAdding) {
   populateTable();
   populateTotal();
   
-  // also send to server
+  //POST Method to post the transaction 
   fetch("/api/transaction", {
     method: "POST",
     body: JSON.stringify(transaction),
@@ -135,8 +136,8 @@ function sendTransaction(isAdding) {
     }
   })
   .catch(err => {
-    // fetch failed, so save in indexed db
-    saveRecord(transaction);
+    // console.log(indexedDB)
+    saveRecord(indexedDB);
 
     // clear form
     nameEl.value = "";

@@ -2,6 +2,9 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");//connecting to mongoose sever database
 const compression = require("compression");
+// const saveRecord = require("saveRecord"); //added SaveRecord for the 
+
+
 
 const PORT = process.env.PORT || 7632
 
@@ -31,6 +34,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/budget", {
 
 // routes
 app.use(require("./routes/api.js"));
+app.use(require("./routes/htmlRoutes.js"));
 
 app.listen(PORT, () => {
   console.log("Now listening http://localhost:" + PORT);

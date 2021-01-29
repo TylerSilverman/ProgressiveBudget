@@ -1,16 +1,15 @@
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-const Schema = mongoose.Schema;
-
-const transactionSchema = new Schema(
+var transactionSchema = new Schema(
   {
     name: {
-      type: String,
+      type: String, required: true,
       trim: true,
       required: "Enter a name for transaction"
     },
     value: {
-      type: Number,
+      type: Number, required: true, 
       required: "Enter an amount"
     },
     date: {
@@ -20,6 +19,6 @@ const transactionSchema = new Schema(
   }
 );
 
-const Transaction = mongoose.model("Transaction", transactionSchema);
+var Transaction = mongoose.model("Transaction", transactionSchema);
 
 module.exports = Transaction;

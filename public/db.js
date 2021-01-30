@@ -15,18 +15,16 @@ request.onsuccess = function(event) {
 };
 
 request.onerror = function(event) {
-  console.log("Whoops! " + event.target.errorCode);
+  console.log("Error " + event.target.errorCode);
 };
 
 function saveRecord(record) {
-    console.log("The record is Saved:" + record);
+    console.log("Your currently Offline, but The record is Saved:" + record);
   // create a transaction on the pending db with readwrite access
   const transaction = db.transaction(["pending"], "readwrite");
 
   // access your pending object store
   const store = transaction.objectStore("pending");
-
-  // add record to your store with add method.
   store.add(record);
 }
 
@@ -50,7 +48,7 @@ function checkDatabase() {
       })
       .then(response => response.json())
       .then(() => {
-        // if successful, open a transaction on your pending db
+        console.log("transaction successfully saved from offline");
         const transaction = db.transaction(["pending"], "readwrite");
 
         const store = transaction.objectStore("pending");
@@ -60,5 +58,4 @@ function checkDatabase() {
   };
 }
 
-// listen for app coming back online
 window.addEventListener("online", checkDatabase);
